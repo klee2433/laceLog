@@ -1,20 +1,23 @@
 import type { Profile } from '../types/sharedTypes'
 import Header from '../components/Header'
 import Cards from '../components/Cards'
-import List from '../components/List'
-import LineChart from '../components/LineChart'
+import ShoeList from '../components/ShoeList'
+import ValueChart from '../components/ValueChart'
+import Stack from 'react-bootstrap/Stack';
 
 interface Props {
     profile: Profile
+    totalValue: number
+    numShoes: number
 }
 
 export default function Dashboard(props: Props) {
     return (
-        <>
+        <Stack gap={4}>
             <Header />
-            <Cards profile={props.profile}/>
-            <List shoeCollection={props.profile.shoeCollection}/>
-            <LineChart totalValues={props.profile.totalValues}/>
-        </>
+            <Cards totalValue={props.totalValue} numShoes={props.numShoes}/>
+            <ShoeList shoeCollection={props.profile.shoeCollection}/>
+            <ValueChart totalValues={props.profile.totalValues}/>
+        </Stack>
     )
 }
