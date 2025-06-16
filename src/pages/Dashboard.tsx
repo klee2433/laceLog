@@ -4,6 +4,7 @@ import Cards from '../components/Cards'
 import ShoeList from '../components/ShoeList'
 import ValueChart from '../components/ValueChart'
 import Stack from 'react-bootstrap/Stack';
+import FunctionBar from '../components/FunctionBar';
 
 interface Props {
     profile: Profile
@@ -15,6 +16,7 @@ export default function Dashboard(props: Props) {
     return (
         <Stack gap={4}>
             <Header />
+            <FunctionBar />
             <Cards totalValue={props.totalValue} numShoes={props.numShoes}/>
             <ValueChart totalValues={props.profile.totalValues}/>
             <ShoeList shoeCollection={props.profile.shoeCollection}/>

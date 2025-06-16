@@ -1,7 +1,7 @@
 import type { Shoe } from '../types/sharedTypes'
 import Table from 'react-bootstrap/Table'
 import Container from 'react-bootstrap/Container'
-import Card from 'react-bootstrap/Card';
+import Card from 'react-bootstrap/Card'
 
 interface Props {
     shoeCollection: Shoe[]
