@@ -1,0 +1,7 @@
+#root {
+    font-family: Trebuchet MS;
+}
+
+.navbar, .card {
+    filter: drop-shadow(0 0 0.75rem rgb(218, 218, 218));
+}

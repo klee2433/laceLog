@@ -1,6 +1,7 @@
 import { LineChart } from '@mui/x-charts/LineChart';
 import Container from 'react-bootstrap/Container'
 import { ValueEntry } from '../types/sharedTypes'
+import Card from 'react-bootstrap/Card';
 
 interface Props {
     totalValues: ValueEntry[]
@@ -15,22 +16,34 @@ export default function ValueChart (props: Props) {
         dates.push(entry.date);
     })
 
-    console.log(dates)
+    const valueFormatter = (value: number) => `$${value.toLocaleString()}`;
 
     return (
         <Container>
-            Daily Collection Value
-            <LineChart
-                xAxis={[{scaleType: 'point', data: dates}]}
-                series={[{
-                    data: values,
-                 }]}
-                height={300}
-                margin={{
-                    right: 50,
-                }}
-                grid={{ horizontal: true }}
-            />
+            <Card border="light">
+                <Card.Body>
+                    <Card.Title className="m-50">Daily Collection Value</Card.Title>
+                    <LineChart
+                        sx={{
+                            "& .MuiLineElement-root": {
+                                strokeWidth: 3,
+                            },
+                        }}
+                        xAxis={[{scaleType: 'point', data: dates}]}
+                        yAxis={[{ width: 60, valueFormatter }]}
+                        series={[{
+                            data: values,
+                            color: "black",
+                        }]}
+                        height={300}
+                        margin={{
+                            right: 50,
+                            left: 50,
+                        }}
+                        grid={{ horizontal: true }}
+                    />
+                </Card.Body>
+            </Card>
         </Container>
     )
 }

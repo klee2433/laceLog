@@ -1,7 +1,7 @@
 import type { Shoe } from '../types/sharedTypes'
 import Table from 'react-bootstrap/Table'
 import Container from 'react-bootstrap/Container'
-
+import Card from 'react-bootstrap/Card';
 
 interface Props {
     shoeCollection: Shoe[]
@@ -10,30 +10,35 @@ interface Props {
 export default function List (props: Props) {
     return (
         <Container>
-            <Table striped hover>
-                <thead>
-                    <tr>
-                        <th>Shoe</th>
-                        <th>Color</th>
-                        <th>Buy Date</th>
-                        <th>Buy Price</th>
-                        <th>Sell Price</th>
-                        <th>Profit</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {props.shoeCollection.map((shoe: Shoe, _) => (
-                        <tr>
-                            <th>{shoe.name}</th>
-                            <th>{shoe.color}</th>
-                            <th>{shoe.buyDate}</th>
-                            <th>{shoe.buyPrice}</th>
-                            <th>{shoe.sellPrice}</th>
-                            <th>{shoe.profit}</th>
-                        </tr>
-                    ))}
-                </tbody>
-            </Table>
+            <Card border="light">
+                <Card.Body>
+                    <Card.Title>Shoes in Collection</Card.Title>
+                    <Table striped hover>
+                        <thead>
+                            <tr>
+                                <th><small className="text-muted">Shoe</small></th>
+                                <th><small className="text-muted">Color</small></th>
+                                <th><small className="text-muted">Buy Date</small></th>
+                                <th><small className="text-muted">Buy Price</small></th>
+                                <th><small className="text-muted">Sell Price</small></th>
+                                <th><small className="text-muted">Profit</small></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {props.shoeCollection.map((shoe: Shoe, _) => (
+                                <tr>
+                                    <td>{shoe.name}</td>
+                                    <td>{shoe.color}</td>
+                                    <td>{shoe.buyDate}</td>
+                                    <td>{shoe.buyPrice}</td>
+                                    <td>{shoe.sellPrice}</td>
+                                    <td>{shoe.profit}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                </Card.Body>
+            </Card>
         </Container>
     )
 }

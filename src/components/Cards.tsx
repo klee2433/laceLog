@@ -18,22 +18,22 @@ export default function Cards (props: Props) {
         <Container>
             <Row xs={1} md={2} className="g-4">
                 <Col key={1}>
-                    <Card>
+                    <Card border="light">
                         <Card.Body>
                             <Card.Title>Current Collection Value</Card.Title>
                             <Card.Text>
-                                <big> {formattedAmount} </big>
+                                <h2> {formattedAmount} </h2>
                             </Card.Text>
                             <small className="text-muted">+5% over the past month, +20% over the past year</small>
                         </Card.Body>
                     </Card>
                 </Col>
                 <Col key={2}>
-                    <Card>
+                    <Card border="light">
                         <Card.Body>
                             <Card.Title>Number of Shoes in Collection</Card.Title>
                             <Card.Text>
-                                <big> {props.numShoes} </big>
+                                <h2> {props.numShoes} </h2>
                             </Card.Text>
                             <small className="text-muted">+3 in the past month, +10 in the past year</small>
                         </Card.Body>

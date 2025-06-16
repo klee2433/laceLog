@@ -16,8 +16,8 @@ export default function Dashboard(props: Props) {
         <Stack gap={4}>
             <Header />
             <Cards totalValue={props.totalValue} numShoes={props.numShoes}/>
-            <ShoeList shoeCollection={props.profile.shoeCollection}/>
             <ValueChart totalValues={props.profile.totalValues}/>
+            <ShoeList shoeCollection={props.profile.shoeCollection}/>
         </Stack>
     )
 }

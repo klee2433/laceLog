@@ -1,5 +1,6 @@
 import Dashboard from './pages/Dashboard'
 import { Profile, Shoe, ValueEntry } from './types/sharedTypes'
+import './App.css'
 
 function App() {
 
