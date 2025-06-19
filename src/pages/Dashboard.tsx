@@ -8,16 +8,17 @@ import FunctionBar from '../components/FunctionBar';
 
 interface Props {
     profile: Profile
-    totalValue: number
-    numShoes: number
 }
 
 export default function Dashboard(props: Props) {
+    const propsNumShoes = props.profile.shoeCollection.length
+    const propsNumValues = props.profile.totalValues.length
+
     return (
         <Stack gap={4}>
             <Header />
             <FunctionBar />
-            <Cards totalValue={props.totalValue} numShoes={props.numShoes}/>
+            <Cards totalValue={props.profile.totalValues[propsNumValues-1].value} numShoes={propsNumShoes}/>
             <ValueChart totalValues={props.profile.totalValues}/>
             <ShoeList shoeCollection={props.profile.shoeCollection}/>
         </Stack>

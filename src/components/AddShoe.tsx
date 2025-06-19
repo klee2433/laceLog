@@ -1,7 +1,7 @@
-import Modal from 'react-bootstrap/Modal';
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
+import Modal from 'react-bootstrap/Modal'
+import FloatingLabel from 'react-bootstrap/FloatingLabel'
+import Form from 'react-bootstrap/Form'
+import InputGroup from 'react-bootstrap/InputGroup'
 import Button from 'react-bootstrap/Button'
 
 import { useState } from 'react'
@@ -89,9 +89,7 @@ export default function AddShoe() {
                         <Button variant="secondary" onClick={handleClose}>
                             Cancel
                         </Button>
-                        <Button variant="primary" type="submit" onClick={handleClose}>
-                            Add
-                        </Button>
+                        <Button variant="success" as="input" type="submit" value="Add" onClick={handleClose}/>
                     </Modal.Footer>
                 </Form>
             </Modal>

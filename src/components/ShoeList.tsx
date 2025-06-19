@@ -6,9 +6,9 @@ import Button from 'react-bootstrap/Button'
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
 import { FaRegTrashAlt } from "react-icons/fa";
-import { GrEdit } from "react-icons/gr";
 
 import AddShoe from './AddShoe'
+import EditShoe from './EditShoe'
 
 interface Props {
     shoeCollection: Shoe[]
@@ -44,10 +44,10 @@ export default function List (props: Props) {
                                     <td>{shoe.buyPrice}</td>
                                     <td>{shoe.sellPrice}</td>
                                     <td>{shoe.profit}</td>
-                                    <td><a href={shoe.link} target="_blank">{shoe.domain}</a></td>
+                                    <td><a href={shoe.link} target="_blank" className="link-success">{shoe.domain}</a></td>
                                     <td>
                                         <ButtonGroup className="float-end">
-                                            <Button variant="outline-secondary"><GrEdit /></Button>
+                                            <EditShoe shoe={shoe}/>
                                             <Button variant="outline-secondary"><FaRegTrashAlt /></Button>
                                         </ButtonGroup>
                                     </td>
