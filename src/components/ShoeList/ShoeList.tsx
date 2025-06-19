@@ -20,7 +20,7 @@ export default function List (props: Props) {
             <Card border="light">
                 <Card.Body>
                     <Card.Title>Shoes in Collection</Card.Title>
-                    <Table striped hover>
+                    <Table striped hover responsive>
                         <thead>
                             <tr>
                                 <th><small className="text-muted">Brand</small></th>
