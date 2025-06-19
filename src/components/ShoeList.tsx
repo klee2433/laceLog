@@ -2,11 +2,13 @@ import type { Shoe } from '../types/sharedTypes'
 import Table from 'react-bootstrap/Table'
 import Container from 'react-bootstrap/Container'
 import Card from 'react-bootstrap/Card'
-import { FaRegTrashAlt } from "react-icons/fa";
-import { GrEdit } from "react-icons/gr";
-import { MdOutlineAdd } from "react-icons/md";
 import Button from 'react-bootstrap/Button'
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
+
+import { FaRegTrashAlt } from "react-icons/fa";
+import { GrEdit } from "react-icons/gr";
+
+import AddShoe from './AddShoe'
 
 interface Props {
     shoeCollection: Shoe[]
@@ -29,7 +31,7 @@ export default function List (props: Props) {
                                 <th><small className="text-muted">Sell Price</small></th>
                                 <th><small className="text-muted">Profit</small></th>
                                 <th><small className="text-muted">Link</small></th>
-                                <th><Button variant="outline-secondary" className="float-end"><MdOutlineAdd /></Button></th>
+                                <th><AddShoe /></th>
                             </tr>
                         </thead>
                         <tbody>

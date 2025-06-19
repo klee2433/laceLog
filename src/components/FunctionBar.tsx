@@ -1,9 +1,11 @@
 import Container from 'react-bootstrap/Container'
-import Button from 'react-bootstrap/Button'
 import ToggleButton from 'react-bootstrap/ToggleButton'
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup'
 
+import AddShoe from './AddShoe'
+
 export default function FunctionBar() {
+
     return (
         <Container>
             <ToggleButtonGroup type="radio" name="options" defaultValue={1}>
@@ -15,7 +17,8 @@ export default function FunctionBar() {
                 </ToggleButton>
             </ToggleButtonGroup>
 
-            <Button variant="outline-secondary" className="float-end">Add New Shoe</Button>
+            <AddShoe />
+            
         </Container>
 
     )
