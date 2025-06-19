@@ -1,13 +1,9 @@
 import Modal from 'react-bootstrap/Modal'
-import FloatingLabel from 'react-bootstrap/FloatingLabel'
 import Form from 'react-bootstrap/Form'
-import InputGroup from 'react-bootstrap/InputGroup'
 import Button from 'react-bootstrap/Button'
 import { GrEdit } from "react-icons/gr"
-
 import { useState } from 'react'
-
-import type { Shoe } from '../types/sharedTypes'
+import type { Shoe } from '../../types/sharedTypes'
 
 interface Props {
     shoe: Shoe

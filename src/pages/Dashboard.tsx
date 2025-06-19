@@ -1,7 +1,7 @@
 import type { Profile } from '../types/sharedTypes'
 import Header from '../components/Header'
 import Cards from '../components/Cards'
-import ShoeList from '../components/ShoeList'
+import ShoeList from '../components/ShoeList/ShoeList'
 import ValueChart from '../components/ValueChart'
 import Stack from 'react-bootstrap/Stack';
 import FunctionBar from '../components/FunctionBar';

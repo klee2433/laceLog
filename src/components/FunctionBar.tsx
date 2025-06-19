@@ -2,7 +2,7 @@ import Container from 'react-bootstrap/Container'
 import ToggleButton from 'react-bootstrap/ToggleButton'
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup'
 
-import AddShoe from './AddShoe'
+import AddShoe from './ShoeList/AddShoe'
 
 export default function FunctionBar() {
 
