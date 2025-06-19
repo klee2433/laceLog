@@ -16,23 +16,27 @@ export default function List (props: Props) {
                     <Table striped hover>
                         <thead>
                             <tr>
-                                <th><small className="text-muted">Shoe</small></th>
+                                <th><small className="text-muted">Brand</small></th>
+                                <th><small className="text-muted">Model</small></th>
                                 <th><small className="text-muted">Color</small></th>
                                 <th><small className="text-muted">Buy Date</small></th>
                                 <th><small className="text-muted">Buy Price</small></th>
                                 <th><small className="text-muted">Sell Price</small></th>
                                 <th><small className="text-muted">Profit</small></th>
+                                <th><small className="text-muted">Link</small></th>
                             </tr>
                         </thead>
                         <tbody>
                             {props.shoeCollection.map((shoe: Shoe, _) => (
                                 <tr>
-                                    <td>{shoe.name}</td>
+                                    <td>{shoe.brand}</td>
+                                    <td>{shoe.model}</td>
                                     <td>{shoe.color}</td>
                                     <td>{shoe.buyDate}</td>
                                     <td>{shoe.buyPrice}</td>
                                     <td>{shoe.sellPrice}</td>
                                     <td>{shoe.profit}</td>
+                                    <td><a href={shoe.link} target="_blank">{shoe.domain}</a></td>
                                 </tr>
                             ))}
                         </tbody>
