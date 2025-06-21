@@ -1,5 +1,7 @@
 import type { Shoe } from '../../lib/sharedTypes'
-import { useLocalStorage } from '../../lib/hooks'
+import { useLocalStorage, usePersistedReducer } from '../../lib/hooks'
+import { reducer } from '../../lib/reducer'
+
 import Table from 'react-bootstrap/Table'
 import Container from 'react-bootstrap/Container'
 import Card from 'react-bootstrap/Card'
@@ -11,9 +13,18 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import AddShoe from './AddShoe'
 import EditShoe from './EditShoe'
 
+const initialState = {shoes: []}
+const storageKey = 'SHOE_COLLECTION'
 
 export default function ShoeList () {
     const storedShoes = useLocalStorage('SHOE_COLLECTION', {shoes: []})
+
+    const dispatch = usePersistedReducer(reducer, initialState, storageKey)
+
+    function handleDelete(id: string) {
+        dispatch({ type: 'DELETE_SHOE', payload: id })
+        window.location.reload();
+    }
 
     return (
         <Container>
@@ -48,7 +59,7 @@ export default function ShoeList () {
                                     <td>
                                         <ButtonGroup className="float-end">
                                             <EditShoe shoe={value}/>
-                                            <Button variant="outline-secondary"><FaRegTrashAlt /></Button>
+                                            <Button onClick={() => handleDelete(value.id)} variant="outline-secondary"><FaRegTrashAlt /></Button>
                                         </ButtonGroup>
                                     </td>
                                 </tr>

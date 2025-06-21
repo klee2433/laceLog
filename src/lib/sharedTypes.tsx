@@ -82,4 +82,4 @@ export interface State {
 export type Action = 
     { type: 'ADD_SHOE'; payload: FormDataObj }
   | { type: 'EDIT_SHOE'; payload: {id: string, data: FormDataObj} }
-  | { type: 'DELETE_SHOE'; payload: {id: string} }
+  | { type: 'DELETE_SHOE'; payload: string }

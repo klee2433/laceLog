@@ -10,7 +10,7 @@ export function reducer(state: State, action: Action): State {
                 item.id === action.payload.id ? addNewShoe(action.payload.data) : item),
             }
         case 'DELETE_SHOE':
-            return { shoes: state.shoes.filter(item => item.id !== action.payload.id),
+            return { shoes: state.shoes.filter(item => item.id !== action.payload),
             }
         default:
             return { shoes: state.shoes }
