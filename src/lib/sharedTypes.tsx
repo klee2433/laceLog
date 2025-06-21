@@ -64,3 +64,22 @@ function getDomainFromUrl(url_string: string): string {
     return "Link";
   }
 }
+
+export interface FormDataObj {
+    brand: string,
+    model: string,
+    color: string,
+    buyDate: string,
+    buyPrice: number,
+    sellPrice: number,
+    link: string
+}
+
+export interface State {
+    shoes: Shoe[]
+}
+
+export type Action = 
+    { type: 'ADD_SHOE'; payload: FormDataObj }
+  | { type: 'EDIT_SHOE'; payload: {id: string, data: FormDataObj} }
+  | { type: 'DELETE_SHOE'; payload: {id: string} }

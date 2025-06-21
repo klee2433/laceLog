@@ -5,49 +5,14 @@ import InputGroup from 'react-bootstrap/InputGroup'
 import Button from 'react-bootstrap/Button'
 
 import { useState } from 'react'
-import { Shoe } from '../../lib/sharedTypes'
+import type { FormDataObj } from '../../lib/sharedTypes'
 import { usePersistedReducer } from '../../lib/hooks'
-
-interface State {
-    shoes: Shoe[]
-}
-
-type Action = 
-    { type: 'ADD_SHOE'; payload: formDataObj }
-
-function reducer(state: State, action: Action): State {
-    switch(action.type) {
-        case 'ADD_SHOE':
-            return { shoes: [...state.shoes, addNewShoe(action.payload)] }
-        default:
-            return { shoes: state.shoes }
-    }
-}
-
-function addNewShoe(formData: formDataObj) {
-    return new Shoe(formData.brand, 
-                    formData.model, 
-                    formData.color, 
-                    formData.buyDate, 
-                    formData.buyPrice, 
-                    formData.sellPrice, 
-                    formData.link)
-}
+import { reducer } from '../../lib/reducer'
 
 const initialState = {shoes: []}
 const storageKey = 'SHOE_COLLECTION'
 
-interface formDataObj {
-    brand: string,
-    model: string,
-    color: string,
-    buyDate: string,
-    buyPrice: number,
-    sellPrice: number,
-    link: string
-}
-
-const emptyFormData: formDataObj = {
+const emptyFormData: FormDataObj = {
     brand: '',
     model: '',
     color: '',
