@@ -21,9 +21,7 @@ export default function Cards (props: Props) {
                     <Card border="light">
                         <Card.Body>
                             <Card.Title>Current Collection Value</Card.Title>
-                            <Card.Text>
-                                <h2> {formattedAmount} </h2>
-                            </Card.Text>
+                            <h2> {formattedAmount} </h2>
                             <small className="text-muted">+5% over the past month, +20% over the past year</small>
                         </Card.Body>
                     </Card>
@@ -32,9 +30,7 @@ export default function Cards (props: Props) {
                     <Card border="light">
                         <Card.Body>
                             <Card.Title>Number of Shoes in Collection</Card.Title>
-                            <Card.Text>
-                                <h2> {props.numShoes} </h2>
-                            </Card.Text>
+                            <h2> {props.numShoes} </h2>
                             <small className="text-muted">+3 in the past month, +10 in the past year</small>
                         </Card.Body>
                     </Card>

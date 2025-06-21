@@ -3,7 +3,7 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import { GrEdit } from "react-icons/gr"
 import { useState } from 'react'
-import type { Shoe } from '../../types/sharedTypes'
+import type { Shoe } from '../../lib/sharedTypes'
 
 interface Props {
     shoe: Shoe

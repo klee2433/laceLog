@@ -1,4 +1,5 @@
-import type { Shoe } from '../../types/sharedTypes'
+import type { Shoe } from '../../lib/sharedTypes'
+import { useLocalStorage } from '../../lib/hooks'
 import Table from 'react-bootstrap/Table'
 import Container from 'react-bootstrap/Container'
 import Card from 'react-bootstrap/Card'
@@ -10,11 +11,10 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import AddShoe from './AddShoe'
 import EditShoe from './EditShoe'
 
-interface Props {
-    shoeCollection: Shoe[]
-}
 
-export default function List (props: Props) {
+export default function ShoeList () {
+    const storedShoes = useLocalStorage('SHOE_COLLECTION', {shoes: []})
+
     return (
         <Container>
             <Card border="light">
@@ -35,19 +35,19 @@ export default function List (props: Props) {
                             </tr>
                         </thead>
                         <tbody>
-                            {props.shoeCollection.map((shoe: Shoe, _) => (
-                                <tr>
-                                    <td>{shoe.brand}</td>
-                                    <td>{shoe.model}</td>
-                                    <td>{shoe.color}</td>
-                                    <td>{shoe.buyDate}</td>
-                                    <td>{shoe.buyPrice}</td>
-                                    <td>{shoe.sellPrice}</td>
-                                    <td>{shoe.profit}</td>
-                                    <td><a href={shoe.link} target="_blank" className="link-success">{shoe.domain}</a></td>
+                            {storedShoes[0].shoes.map((value: Shoe, _:any) => (
+                                <tr key={value.id}>
+                                    <td>{value.brand}</td>
+                                    <td>{value.model}</td>
+                                    <td>{value.color}</td>
+                                    <td>{value.buyDate}</td>
+                                    <td>{value.buyPrice}</td>
+                                    <td>{value.sellPrice}</td>
+                                    <td>{value.profit}</td>
+                                    <td><a href={value.link} target="_blank" className="link-success">{value.domain}</a></td>
                                     <td>
                                         <ButtonGroup className="float-end">
-                                            <EditShoe shoe={shoe}/>
+                                            <EditShoe shoe={value}/>
                                             <Button variant="outline-secondary"><FaRegTrashAlt /></Button>
                                         </ButtonGroup>
                                     </td>

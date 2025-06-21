@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 export class Profile {
     totalValues: ValueEntry[]
     shoeCollection: Shoe[]
@@ -19,6 +21,8 @@ export class ValueEntry {
 }
 
 export class Shoe {
+    id: string
+
     brand: string
     model: string
     color: string
@@ -29,7 +33,9 @@ export class Shoe {
     link: string
     domain: string
 
-    constructor(brand: string, model: string, color: string, buyDate: Date, buyPrice: number, sellPrice: number, link: string) {
+    constructor(brand: string, model: string, color: string, buyDate: string, buyPrice: number, sellPrice: number, link: string) {
+        this.id = uuidv4();
+        
         const formattedBuyPrice = new Intl.NumberFormat('en-US', {
             style: 'currency', currency: 'USD'}).format(buyPrice);
         const formattedSellPrice = new Intl.NumberFormat('en-US', {
@@ -40,7 +46,7 @@ export class Shoe {
         this.brand = brand
         this.model = model
         this.color = color
-        this.buyDate = buyDate.toLocaleDateString()
+        this.buyDate = buyDate
         this.buyPrice = formattedBuyPrice
         this.sellPrice = formattedSellPrice
         this.profit = formattedProfit

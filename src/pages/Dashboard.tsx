@@ -1,4 +1,4 @@
-import type { Profile } from '../types/sharedTypes'
+import type { Profile } from '../lib/sharedTypes'
 import Header from '../components/Header'
 import Cards from '../components/Cards'
 import ShoeList from '../components/ShoeList/ShoeList'
@@ -20,7 +20,7 @@ export default function Dashboard(props: Props) {
             <FunctionBar />
             <Cards totalValue={props.profile.totalValues[propsNumValues-1].value} numShoes={propsNumShoes}/>
             <ValueChart totalValues={props.profile.totalValues}/>
-            <ShoeList shoeCollection={props.profile.shoeCollection}/>
+            <ShoeList />
         </Stack>
     )
 }

@@ -5,12 +5,71 @@ import InputGroup from 'react-bootstrap/InputGroup'
 import Button from 'react-bootstrap/Button'
 
 import { useState } from 'react'
+import { Shoe } from '../../lib/sharedTypes'
+import { usePersistedReducer } from '../../lib/hooks'
+
+interface State {
+    shoes: Shoe[]
+}
+
+type Action = 
+    { type: 'ADD_SHOE'; payload: formDataObj }
+
+function reducer(state: State, action: Action): State {
+    switch(action.type) {
+        case 'ADD_SHOE':
+            return { shoes: [...state.shoes, addNewShoe(action.payload)] }
+        default:
+            return { shoes: state.shoes }
+    }
+}
+
+function addNewShoe(formData: formDataObj) {
+    return new Shoe(formData.brand, 
+                    formData.model, 
+                    formData.color, 
+                    formData.buyDate, 
+                    formData.buyPrice, 
+                    formData.sellPrice, 
+                    formData.link)
+}
+
+const initialState = {shoes: []}
+const storageKey = 'SHOE_COLLECTION'
+
+interface formDataObj {
+    brand: string,
+    model: string,
+    color: string,
+    buyDate: string,
+    buyPrice: number,
+    sellPrice: number,
+    link: string
+}
+
+const emptyFormData: formDataObj = {
+    brand: '',
+    model: '',
+    color: '',
+    buyDate: '0000-00-00',
+    buyPrice: 0,
+    sellPrice: 0,
+    link: ''
+}
+
 
 export default function AddShoe() {
     const [show, setShow] = useState(false);
-
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    const dispatch = usePersistedReducer(reducer, initialState, storageKey)
+    const [formData, setFormData] = useState(emptyFormData)
+
+    function handleSubmit() {
+        dispatch({ type: 'ADD_SHOE', payload: formData })
+        setFormData(emptyFormData)
+    }
 
     return (
         <>
@@ -20,7 +79,7 @@ export default function AddShoe() {
                 <Modal.Header closeButton>
                     <Modal.Title>Enter New Shoe Details</Modal.Title>
                 </Modal.Header>
-                <Form>
+                <Form onSubmit={handleSubmit}>
                     <Modal.Body>
                         <Form.Group className="mb-3">
                             <FloatingLabel
@@ -28,7 +87,12 @@ export default function AddShoe() {
                                 label="Brand Name"
                                 className="mb-3"
                             >
-                                <Form.Control type="text" placeholder="Brand"/>
+                                <Form.Control 
+                                    type="text" 
+                                    placeholder="Brand" 
+                                    value={formData.brand} 
+                                    onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
+                                />
                             </FloatingLabel>
 
                             <FloatingLabel
@@ -36,7 +100,12 @@ export default function AddShoe() {
                                 label="Model Name"
                                 className="mb-3"
                             >
-                                <Form.Control type="text" placeholder="Model"/>
+                                <Form.Control 
+                                    type="text" 
+                                    placeholder="Model"
+                                    value={formData.model}
+                                    onChange={(e) => setFormData({...formData, model: e.target.value})}
+                                />
                             </FloatingLabel>
 
                             <FloatingLabel
@@ -44,7 +113,12 @@ export default function AddShoe() {
                                 label="Color"
                                 className="mb-3"
                             >
-                                <Form.Control type="text" placeholder="Color"/>
+                                <Form.Control 
+                                    type="text" 
+                                    placeholder="Color"
+                                    value={formData.color}
+                                    onChange={(e) => setFormData({...formData, color: e.target.value})}
+                                />
                             </FloatingLabel>
                     
                             <FloatingLabel
@@ -52,7 +126,12 @@ export default function AddShoe() {
                                 label="Buy Date"
                                 className="mb-3"
                             >
-                                <Form.Control type="date" placeholder="01/01/2000"/>
+                                <Form.Control 
+                                    type="date" 
+                                    placeholder="Select a date"
+                                    value={formData.buyDate}
+                                    onChange={(e) => setFormData({...formData, buyDate: e.target.value})}
+                                />
                             </FloatingLabel>
                         </Form.Group>
 
@@ -62,7 +141,11 @@ export default function AddShoe() {
                                 controlId="floatingInput"
                                 label="Buy Price"
                             >
-                                <Form.Control type="text" placeholder="0.00"/>
+                                <Form.Control 
+                                    type="number"
+                                    value={formData.buyPrice}
+                                    onChange={(e) => setFormData({...formData, buyPrice: Number(e.target.value)})}
+                                />
                             </FloatingLabel>
                         </InputGroup>
 
@@ -72,7 +155,11 @@ export default function AddShoe() {
                                 controlId="floatingInput"
                                 label="Sell Price"
                             >
-                                <Form.Control type="text" placeholder="0.00"/>
+                                <Form.Control 
+                                    type="number"
+                                    value={formData.sellPrice}
+                                    onChange={(e) => setFormData({...formData, sellPrice: Number(e.target.value)})}
+                                />
                             </FloatingLabel>
                         </InputGroup>
 
@@ -81,7 +168,12 @@ export default function AddShoe() {
                                 controlId="floatingInput"
                                 label="Link"
                             >
-                                <Form.Control type="text" placeholder="Copy and paste URL here"/>
+                                <Form.Control 
+                                    type="text" 
+                                    placeholder="Copy and paste URL here"
+                                    value={formData.link}
+                                    onChange={(e) => setFormData({...formData, link: e.target.value})}
+                                />
                             </FloatingLabel>
                         </Form.Group>
                     </Modal.Body>

@@ -1,6 +1,6 @@
 import { LineChart } from '@mui/x-charts/LineChart';
 import Container from 'react-bootstrap/Container'
-import { ValueEntry } from '../types/sharedTypes'
+import { ValueEntry } from '../lib/sharedTypes'
 import Card from 'react-bootstrap/Card';
 
 interface Props {
