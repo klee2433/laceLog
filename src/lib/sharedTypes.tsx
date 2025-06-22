@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import { numberToPrice } from './util';
 
 export class ValueEntry {
     value: number
@@ -25,21 +26,14 @@ export class Shoe {
 
     constructor(brand: string, model: string, color: string, buyDate: string, buyPrice: number, sellPrice: number, link: string) {
         this.id = uuidv4();
-        
-        const formattedBuyPrice = new Intl.NumberFormat('en-US', {
-            style: 'currency', currency: 'USD'}).format(buyPrice);
-        const formattedSellPrice = new Intl.NumberFormat('en-US', {
-            style: 'currency', currency: 'USD'}).format(sellPrice);
-        const formattedProfit = new Intl.NumberFormat('en-US', {
-            style: 'currency', currency: 'USD'}).format(sellPrice - buyPrice);
 
         this.brand = brand
         this.model = model
         this.color = color
         this.buyDate = buyDate
-        this.buyPrice = formattedBuyPrice
-        this.sellPrice = formattedSellPrice
-        this.profit = formattedProfit
+        this.buyPrice = numberToPrice(buyPrice)
+        this.sellPrice = numberToPrice(sellPrice)
+        this.profit = numberToPrice(sellPrice - buyPrice)
         this.link = link
         this.domain = getDomainFromUrl(link)
     }
@@ -73,3 +67,15 @@ export type Action =
     { type: 'ADD_SHOE'; payload: FormDataObj }
   | { type: 'EDIT_SHOE'; payload: {id: string, data: FormDataObj} }
   | { type: 'DELETE_SHOE'; payload: string }
+
+export class ValueStats {
+    totalProfit: string
+    newShoesMonth: string
+    newShoesYear: string
+
+    constructor (totalProfit: number, newShoesMonth: number, newShoesYear: number) {
+        this.totalProfit = numberToPrice(totalProfit)
+        this.newShoesMonth = newShoesMonth.toString()
+        this.newShoesYear = newShoesYear.toString()
+    }
+}

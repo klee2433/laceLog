@@ -3,9 +3,11 @@ import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { usePersistedState } from '../lib/hooks'
+import { ValueStats } from '../lib/sharedTypes'
+import { runStats } from '../lib/util'
 
 export default function Cards() {
-    const [dailyValues, _] = usePersistedState("DAILY_VALUES", [])
+    const [dailyValues, setDailyValues] = usePersistedState("DAILY_VALUES", [])
     const currentValue: number = dailyValues.length > 0 ? dailyValues[dailyValues.length - 1].value : 0
 
     const formattedAmount = new Intl.NumberFormat('en-US', {
@@ -13,8 +15,9 @@ export default function Cards() {
         currency: 'USD'
     }).format(currentValue);
 
-    const [storedShoes, __] = usePersistedState('SHOE_COLLECTION', {shoes: []})
-    const numShoes = storedShoes.shoes.length
+    const [storedShoes, _] = usePersistedState('SHOE_COLLECTION', {shoes: []})
+    const numShoes: number = storedShoes.shoes.length
+    const stats: ValueStats = runStats(dailyValues, setDailyValues, storedShoes.shoes)
 
     return (
         <Container>
@@ -24,7 +27,7 @@ export default function Cards() {
                         <Card.Body>
                             <Card.Title>Current Collection Value</Card.Title>
                             <h2> {formattedAmount} </h2>
-                            <small className="text-muted">+5% over the past month, +20% over the past year</small>
+                            <small className="text-muted">{stats.totalProfit} profit overall</small>
                         </Card.Body>
                     </Card>
                 </Col>
@@ -33,7 +36,7 @@ export default function Cards() {
                         <Card.Body>
                             <Card.Title>Number of Shoes in Collection</Card.Title>
                             <h2> {numShoes} </h2>
-                            <small className="text-muted">+3 in the past month, +10 in the past year</small>
+                            <small className="text-muted">+ {stats.newShoesMonth} in the past month, + {stats.newShoesYear} in the past year</small>
                         </Card.Body>
                     </Card>
                 </Col>
