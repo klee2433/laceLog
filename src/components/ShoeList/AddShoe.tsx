@@ -10,7 +10,6 @@ import { usePersistedState, usePersistedReducer } from '../../lib/hooks'
 import { reducer, recalculateDailyValues } from '../../lib/util'
 
 const initialState = {shoes: []}
-const storageKey = 'SHOE_COLLECTION'
 
 const emptyFormData: FormDataObj = {
     brand: '',
@@ -22,8 +21,13 @@ const emptyFormData: FormDataObj = {
     link: ''
 }
 
+interface Props {
+    page: string
+}
 
-export default function AddShoe() {
+export default function AddShoe(props: Props) {
+    const storageKey = `SHOE_COLLECTION/${props.page}`
+
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -31,7 +35,7 @@ export default function AddShoe() {
     const dispatch = usePersistedReducer(reducer, initialState, storageKey)
     const [formData, setFormData] = useState(emptyFormData)
 
-    const [dailyValues, setDailyValues] = usePersistedState("DAILY_VALUES", [])
+    const [dailyValues, setDailyValues] = usePersistedState(`DAILY_VALUES/${props.page}`, [])
 
     function handleSubmit() {
         recalculateDailyValues(dailyValues, setDailyValues, 0, formData.sellPrice)

@@ -4,18 +4,17 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { usePersistedState } from '../lib/hooks'
 import { ValueStats } from '../lib/sharedTypes'
-import { runStats } from '../lib/util'
+import { runStats, numberToPrice } from '../lib/util'
 
-export default function Cards() {
-    const [dailyValues, setDailyValues] = usePersistedState("DAILY_VALUES", [])
+interface Props {
+    page: string
+}
+
+export default function Cards(props: Props) {
+    const [dailyValues, setDailyValues] = usePersistedState(`DAILY_VALUES/${props.page}`, [])
     const currentValue: number = dailyValues.length > 0 ? dailyValues[dailyValues.length - 1].value : 0
 
-    const formattedAmount = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD'
-    }).format(currentValue);
-
-    const [storedShoes, _] = usePersistedState('SHOE_COLLECTION', {shoes: []})
+    const [storedShoes, _] = usePersistedState(`SHOE_COLLECTION/${props.page}`, {shoes: []})
     const numShoes: number = storedShoes.shoes.length
     const stats: ValueStats = runStats(dailyValues, setDailyValues, storedShoes.shoes)
 
@@ -26,7 +25,7 @@ export default function Cards() {
                     <Card border="light">
                         <Card.Body>
                             <Card.Title>Current Collection Value</Card.Title>
-                            <h2> {formattedAmount} </h2>
+                            <h2> {numberToPrice(currentValue)} </h2>
                             <small className="text-muted">{stats.totalProfit} profit overall</small>
                         </Card.Body>
                     </Card>

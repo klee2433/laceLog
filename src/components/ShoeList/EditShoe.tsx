@@ -9,12 +9,14 @@ import { reducer, recalculateDailyValues, priceToNumber } from '../../lib/util'
 
 interface Props {
     shoe: Shoe
+    page: string
 }
 
 const initialState = {shoes: []}
-const storageKey = 'SHOE_COLLECTION'
 
 export default function EditShoe(props: Props) {
+    const storageKey = `SHOE_COLLECTION/${props.page}`
+
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
@@ -33,7 +35,7 @@ export default function EditShoe(props: Props) {
     const dispatch = usePersistedReducer(reducer, initialState, storageKey)
     const [formData, setFormData] = useState(pastFormData)
 
-    const [dailyValues, setDailyValues] = usePersistedState("DAILY_VALUES", [])
+    const [dailyValues, setDailyValues] = usePersistedState(`DAILY_VALUES/${props.page}`, [])
 
     function handleSubmit() {
         recalculateDailyValues(dailyValues, setDailyValues, priceToNumber(props.shoe.sellPrice), formData.sellPrice)

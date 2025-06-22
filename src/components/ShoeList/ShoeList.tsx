@@ -13,12 +13,17 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import AddShoe from './AddShoe'
 import EditShoe from './EditShoe'
 
-const initialState = {shoes: []}
-const storageKey = 'SHOE_COLLECTION'
+interface Props {
+    page: string
+}
 
-export default function ShoeList () {
-    const [storedShoes,_] = usePersistedState('SHOE_COLLECTION', {shoes: []})
-    const [dailyValues, setDailyValues] = usePersistedState("DAILY_VALUES", [])
+const initialState = {shoes: []}
+
+export default function ShoeList (props: Props) {
+    const storageKey = `SHOE_COLLECTION/${props.page}`
+
+    const [storedShoes,_] = usePersistedState(`SHOE_COLLECTION/${props.page}`, {shoes: []})
+    const [dailyValues, setDailyValues] = usePersistedState(`DAILY_VALUES/${props.page}`, [])
 
     const dispatch = usePersistedReducer(reducer, initialState, storageKey)
 
@@ -46,7 +51,7 @@ export default function ShoeList () {
                                 <th><small className="text-muted">Sell Price</small></th>
                                 <th><small className="text-muted">Profit</small></th>
                                 <th><small className="text-muted">Link</small></th>
-                                <th><AddShoe /></th>
+                                <th><AddShoe page={props.page}/></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -62,7 +67,7 @@ export default function ShoeList () {
                                     <td><a href={value.link} target="_blank" className="link-success">{value.domain}</a></td>
                                     <td>
                                         <ButtonGroup className="float-end">
-                                            <EditShoe shoe={value}/>
+                                            <EditShoe shoe={value} page={props.page}/>
                                             <Button onClick={() => handleDelete(value.id)} variant="outline-secondary"><FaRegTrashAlt /></Button>
                                         </ButtonGroup>
                                     </td>

@@ -5,14 +5,14 @@ import ValueChart from '../components/ValueChart'
 import Stack from 'react-bootstrap/Stack'
 import FunctionBar from '../components/FunctionBar'
 
-export default function Dashboard() {
+export default function Wishlist() {
     return (
         <Stack gap={4}>
             <Header />
-            <FunctionBar />
-            <Cards />
-            <ValueChart />
-            <ShoeList />
+            <FunctionBar page='wishlist'/>
+            <Cards page='wishlist'/>
+            <ValueChart page='wishlist'/>
+            <ShoeList page='wishlist'/>
         </Stack>
     )
 }

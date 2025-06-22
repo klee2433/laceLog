@@ -4,10 +4,14 @@ import { ValueEntry } from '../lib/sharedTypes'
 import Card from 'react-bootstrap/Card';
 import { usePersistedState } from '../lib/hooks'
 
-export default function ValueChart() {
+interface Props {
+    page: string
+}
+
+export default function ValueChart(props: Props) {
     const values: number[] = []
     const dates: string[] = []
-    const [dailyValues, _] = usePersistedState("DAILY_VALUES", [])
+    const [dailyValues, _] = usePersistedState(`DAILY_VALUES/${props.page}`, [])
 
     dailyValues.map((entry: ValueEntry,_:any) => {
         values.push(entry.value);
