@@ -35,7 +35,7 @@ export function usePersistedReducer<State, Action>(
   return dispatch
 }
 
-export function usePrevious(value: any) {
+function usePrevious(value: any) {
   const ref = useRef(null)
   useEffect(() => {
     ref.current = value
@@ -43,44 +43,38 @@ export function usePrevious(value: any) {
   return ref.current
 }
 
-export function useLocalStorage(key: string, initialValue: any): any {
-  const [storedValue, setStoredValue] = useState(() => {
+function getItem(key: string) {
     try {
-      const item = localStorage.getItem(key);
-      return item ? JSON.parse(item) : initialValue;
-    } catch (error) {
-      console.error(error);
-      return initialValue;
+        const item = window.localStorage.getItem(key);
+        return item ? JSON.parse(item) : undefined;
+    } catch(error) {
+        console.log(error);
     }
-  });
-
-  const setValue = (value: any) => {
-    try {
-      setStoredValue(value);
-      localStorage.setItem(key, JSON.stringify(value));
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    const handleStorageChange = () => {
-      try {
-        const item = localStorage.getItem(key);
-        setStoredValue(item ? JSON.parse(item) : initialValue);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-    };
-  }, [key, initialValue]);
-
-  return [storedValue, setValue];
 }
 
-export default useLocalStorage;
+function setItem(key: string, value: any) {
+    try {
+        window.localStorage.setItem(key, JSON.stringify(value));
+    } catch(error) {
+        console.log(error);
+    }
+}
+
+export function usePersistedState(key: string, initialValue: any) {
+    const [value, setValue] = useState(() => {
+        const item = getItem(key);
+
+        // upon first loading the app
+        if (key == "projects" && item == null) {
+            setItem("notes/Template", "--- All changes are saved automatically --- \n(Example)\n Row 1: 5 dc \n Row 2: 2 sc in each dc around");
+        }
+
+        return item || initialValue;
+    });
+
+    useEffect(() => {
+        setItem(key, value);
+    }, [key, value]);
+
+    return [value, setValue];
+}

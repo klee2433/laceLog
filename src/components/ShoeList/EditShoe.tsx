@@ -4,8 +4,8 @@ import Button from 'react-bootstrap/Button'
 import { GrEdit } from "react-icons/gr"
 import { useState } from 'react'
 import type { Shoe, FormDataObj } from '../../lib/sharedTypes'
-import { usePersistedReducer } from '../../lib/hooks'
-import { reducer } from '../../lib/reducer'
+import { usePersistedState, usePersistedReducer } from '../../lib/hooks'
+import { reducer, recalculateDailyValues, priceToNumber } from '../../lib/util'
 
 interface Props {
     shoe: Shoe
@@ -25,15 +25,19 @@ export default function EditShoe(props: Props) {
         model: props.shoe.model,
         color: props.shoe.color,
         buyDate: props.shoe.buyDate,
-        buyPrice: Number(props.shoe.buyPrice.replace(/[$,]+/g,"")),
-        sellPrice: Number(props.shoe.sellPrice.replace(/[$,]+/g,"")),
+        buyPrice: priceToNumber(props.shoe.buyPrice),
+        sellPrice: priceToNumber(props.shoe.sellPrice),
         link: props.shoe.link
     }
 
     const dispatch = usePersistedReducer(reducer, initialState, storageKey)
     const [formData, setFormData] = useState(pastFormData)
 
+    const [dailyValues, setDailyValues] = usePersistedState("DAILY_VALUES", [])
+
     function handleSubmit() {
+        recalculateDailyValues(dailyValues, setDailyValues, priceToNumber(props.shoe.sellPrice), formData.sellPrice)
+
         dispatch({ type: 'EDIT_SHOE', payload: {id: props.shoe.id, data: formData} })
         setFormData(pastFormData)
     }

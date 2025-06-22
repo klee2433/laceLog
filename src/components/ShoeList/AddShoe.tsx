@@ -6,8 +6,8 @@ import Button from 'react-bootstrap/Button'
 
 import { useState } from 'react'
 import type { FormDataObj } from '../../lib/sharedTypes'
-import { usePersistedReducer } from '../../lib/hooks'
-import { reducer } from '../../lib/reducer'
+import { usePersistedState, usePersistedReducer } from '../../lib/hooks'
+import { reducer, recalculateDailyValues } from '../../lib/util'
 
 const initialState = {shoes: []}
 const storageKey = 'SHOE_COLLECTION'
@@ -31,7 +31,11 @@ export default function AddShoe() {
     const dispatch = usePersistedReducer(reducer, initialState, storageKey)
     const [formData, setFormData] = useState(emptyFormData)
 
+    const [dailyValues, setDailyValues] = usePersistedState("DAILY_VALUES", [])
+
     function handleSubmit() {
+        recalculateDailyValues(dailyValues, setDailyValues, 0, formData.sellPrice)
+
         dispatch({ type: 'ADD_SHOE', payload: formData })
         setFormData(emptyFormData)
     }

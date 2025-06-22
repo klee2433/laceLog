@@ -1,6 +1,6 @@
 import type { Shoe } from '../../lib/sharedTypes'
-import { useLocalStorage, usePersistedReducer } from '../../lib/hooks'
-import { reducer } from '../../lib/reducer'
+import { usePersistedState, usePersistedReducer } from '../../lib/hooks'
+import { reducer, recalculateDailyValues, priceToNumber } from '../../lib/util'
 
 import Table from 'react-bootstrap/Table'
 import Container from 'react-bootstrap/Container'
@@ -17,11 +17,15 @@ const initialState = {shoes: []}
 const storageKey = 'SHOE_COLLECTION'
 
 export default function ShoeList () {
-    const storedShoes = useLocalStorage('SHOE_COLLECTION', {shoes: []})
+    const [storedShoes,_] = usePersistedState('SHOE_COLLECTION', {shoes: []})
+    const [dailyValues, setDailyValues] = usePersistedState("DAILY_VALUES", [])
 
     const dispatch = usePersistedReducer(reducer, initialState, storageKey)
 
     function handleDelete(id: string) {
+        const shoeToDelete: Shoe = storedShoes.shoes.filter((shoe: Shoe) => shoe.id === id)[0]
+        recalculateDailyValues(dailyValues, setDailyValues, priceToNumber(shoeToDelete.sellPrice), 0)
+
         dispatch({ type: 'DELETE_SHOE', payload: id })
         window.location.reload();
     }
@@ -46,7 +50,7 @@ export default function ShoeList () {
                             </tr>
                         </thead>
                         <tbody>
-                            {storedShoes[0].shoes.map((value: Shoe, _:any) => (
+                            {storedShoes.shoes.map((value: Shoe, _:any) => (
                                 <tr key={value.id}>
                                     <td>{value.brand}</td>
                                     <td>{value.model}</td>

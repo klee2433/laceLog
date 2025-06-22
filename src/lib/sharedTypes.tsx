@@ -1,22 +1,12 @@
 import { v4 as uuidv4 } from 'uuid';
 
-export class Profile {
-    totalValues: ValueEntry[]
-    shoeCollection: Shoe[]
-
-    constructor(totalValues: ValueEntry[], shoeCollection: Shoe[]) {
-        this.totalValues = totalValues
-        this.shoeCollection = shoeCollection
-    }
-}
-
 export class ValueEntry {
     value: number
     date: string
 
-    constructor(value: number, date: Date) {
+    constructor(value: number, date: string) {
         this.value = value
-        this.date = date.toLocaleDateString()
+        this.date = date
     }
 }
 

@@ -2,16 +2,14 @@ import { LineChart } from '@mui/x-charts/LineChart';
 import Container from 'react-bootstrap/Container'
 import { ValueEntry } from '../lib/sharedTypes'
 import Card from 'react-bootstrap/Card';
+import { usePersistedState } from '../lib/hooks'
 
-interface Props {
-    totalValues: ValueEntry[]
-}
-
-export default function ValueChart (props: Props) {
+export default function ValueChart() {
     const values: number[] = []
     const dates: string[] = []
+    const [dailyValues, _] = usePersistedState("DAILY_VALUES", [])
 
-    props.totalValues.map((entry,_) => {
+    dailyValues.map((entry: ValueEntry,_:any) => {
         values.push(entry.value);
         dates.push(entry.date);
     })

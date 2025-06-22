@@ -2,17 +2,19 @@ import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { usePersistedState } from '../lib/hooks'
 
-interface Props {
-    totalValue: number
-    numShoes: number
-}
+export default function Cards() {
+    const [dailyValues, _] = usePersistedState("DAILY_VALUES", [])
+    const currentValue: number = dailyValues.length > 0 ? dailyValues[dailyValues.length - 1].value : 0
 
-export default function Cards (props: Props) {
     const formattedAmount = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD'
-    }).format(props.totalValue);
+    }).format(currentValue);
+
+    const [storedShoes, __] = usePersistedState('SHOE_COLLECTION', {shoes: []})
+    const numShoes = storedShoes.shoes.length
 
     return (
         <Container>
@@ -30,7 +32,7 @@ export default function Cards (props: Props) {
                     <Card border="light">
                         <Card.Body>
                             <Card.Title>Number of Shoes in Collection</Card.Title>
-                            <h2> {props.numShoes} </h2>
+                            <h2> {numShoes} </h2>
                             <small className="text-muted">+3 in the past month, +10 in the past year</small>
                         </Card.Body>
                     </Card>
