@@ -78,14 +78,18 @@ export default function EditShoe(props: Props) {
                                 onChange={(e) => setFormData({ ...formData, color: e.target.value })}
                             />
                         </Form.Group>
-                        <Form.Group className="mb-3">
-                            <Form.Label>Buy Date</Form.Label>
-                            <Form.Control 
-                                type="text"
-                                value={formData.buyDate} 
-                                onChange={(e) => setFormData({ ...formData, buyDate: e.target.value })}
-                            />
-                        </Form.Group>
+
+                        {props.page === 'collection' && (
+                            <Form.Group className="mb-3">
+                                <Form.Label>Buy Date</Form.Label>
+                                <Form.Control 
+                                    type="text"
+                                    value={formData.buyDate} 
+                                    onChange={(e) => setFormData({ ...formData, buyDate: e.target.value })}
+                                />
+                            </Form.Group>
+                        )}
+
                         <Form.Group className="mb-3">
                             <Form.Label>Buy Price</Form.Label>
                             <Form.Control 

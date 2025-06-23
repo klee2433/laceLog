@@ -9,12 +9,14 @@ import Button from 'react-bootstrap/Button'
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
 import { FaRegTrashAlt } from "react-icons/fa";
+import { IoMdArrowDropdown } from "react-icons/io";
+import { IoMdArrowDropup } from "react-icons/io";
 
 import AddShoe from './AddShoe'
 import EditShoe from './EditShoe'
 
-// TODO: Switch wishlist shoes to collection
-// TODO: sort function for each column
+import { useState, useEffect } from 'react'
+import { format } from 'date-fns'
 
 interface Props {
     page: string
@@ -25,11 +27,11 @@ const initialState = {shoes: []}
 export default function ShoeList (props: Props) {
     const storageKey = `SHOE_COLLECTION/${props.page}`
 
-    const [storedShoes,_] = usePersistedState(`SHOE_COLLECTION/${props.page}`, {shoes: []})
+    const [storedShoes, setStoredShoes] = usePersistedState(`SHOE_COLLECTION/${props.page}`, {shoes: []})
     const [dailyValues, setDailyValues] = usePersistedState(`DAILY_VALUES/${props.page}`, [])
 
     const dispatch = usePersistedReducer(reducer, initialState, storageKey)
-    const dispatch2 = usePersistedReducer(reducer, initialState, 'SHOE_COLLECTION/collection')
+    const dispatchMover = usePersistedReducer(reducer, initialState, 'SHOE_COLLECTION/collection')
 
     function handleDelete(id: string) {
         const shoeToDelete: Shoe = storedShoes.shoes.filter((shoe: Shoe) => shoe.id === id)[0]
@@ -41,21 +43,36 @@ export default function ShoeList (props: Props) {
 
     function handleMove(id: string) {
         if (props.page === 'collection') return
-        
+
         const shoe: Shoe = storedShoes.shoes.filter((shoe: Shoe) => shoe.id === id)[0]
         const newShoe: FormDataObj = {
             brand: shoe.brand,
             model: shoe.model,
             color: shoe.color,
-            buyDate: new Date().toLocaleDateString(),
+            buyDate: format(new Date(), 'yyyy-MM-dd'),
             buyPrice: priceToNumber(shoe.buyPrice),
             sellPrice: priceToNumber(shoe.sellPrice),
             link: shoe.link
         }
-        dispatch2({ type: 'ADD_SHOE', payload: newShoe })
+        dispatchMover({ type: 'ADD_SHOE', payload: newShoe })
+        recalculateDailyValues(dailyValues, setDailyValues, 0, priceToNumber(shoe.sellPrice))
 
         handleDelete(id)
     }
+
+    const [sorting, setSorting] = useState({ key: 'brand', ascending: false })
+    function applySorting(key: string, ascending: boolean) {
+        setSorting({key: key, ascending: ascending})
+    }
+
+    useEffect(() => {
+        const storedShoesCopy = [...storedShoes.shoes]
+        const sortedShoes = storedShoesCopy.sort((a, b) => {
+            return a[sorting.key].localeCompare(b[sorting.key])
+        })
+
+        setStoredShoes(sorting.ascending ? { shoes : sortedShoes.reverse()} : { shoes: sortedShoes })
+    }, [sorting]);
 
     return (
         <Container>
@@ -65,14 +82,63 @@ export default function ShoeList (props: Props) {
                     <Table striped hover responsive>
                         <thead>
                             <tr>
-                                <th><small className="text-muted">Brand</small></th>
-                                <th><small className="text-muted">Model</small></th>
-                                <th><small className="text-muted">Color</small></th>
-                                {props.page === 'collection' && (<th><small className="text-muted">Buy Date</small></th>)}
-                                <th><small className="text-muted">Buy Price</small></th>
-                                <th><small className="text-muted">Sell Price</small></th>
-                                <th><small className="text-muted">Profit</small></th>
-                                <th><small className="text-muted">Link</small></th>
+                                <th>
+                                    <small className="text-muted">Brand</small>
+                                    <Button onClick={() => applySorting('brand', !sorting.ascending)} variant="light">
+                                        {sorting.ascending && (< IoMdArrowDropup />)}
+                                        {!sorting.ascending && (< IoMdArrowDropdown />)}
+                                    </Button>
+                                </th>
+                                <th>
+                                    <small className="text-muted">Model</small>
+                                    <Button onClick={() => applySorting('model', !sorting.ascending)} variant="light">
+                                        {sorting.ascending && (< IoMdArrowDropup />)}
+                                        {!sorting.ascending && (< IoMdArrowDropdown />)}
+                                    </Button>
+                                </th>
+                                <th>
+                                    <small className="text-muted">Color</small>
+                                    <Button onClick={() => applySorting('color', !sorting.ascending)} variant="light">
+                                        {sorting.ascending && (< IoMdArrowDropup />)}
+                                        {!sorting.ascending && (< IoMdArrowDropdown />)}
+                                    </Button>
+                                </th>
+                                {props.page === 'collection' && 
+                                    (<th>
+                                        <small className="text-muted">Buy Date</small>
+                                        <Button onClick={() => applySorting('buyDate', !sorting.ascending)} variant="light">
+                                            {sorting.ascending && (< IoMdArrowDropup />)}
+                                            {!sorting.ascending && (< IoMdArrowDropdown />)}
+                                        </Button>
+                                    </th>)}
+                                <th>
+                                    <small className="text-muted">Buy Price</small>
+                                    <Button onClick={() => applySorting('buyPrice', !sorting.ascending)} variant="light">
+                                        {sorting.ascending && (< IoMdArrowDropup />)}
+                                        {!sorting.ascending && (< IoMdArrowDropdown />)}
+                                    </Button>
+                                </th>
+                                <th>
+                                    <small className="text-muted">Sell Price</small>
+                                    <Button onClick={() => applySorting('sellPrice', !sorting.ascending)} variant="light">
+                                        {sorting.ascending && (< IoMdArrowDropup />)}
+                                        {!sorting.ascending && (< IoMdArrowDropdown />)}
+                                    </Button>
+                                </th>
+                                <th>
+                                    <small className="text-muted">Profit</small>
+                                    <Button onClick={() => applySorting('profit', !sorting.ascending)} variant="light">
+                                        {sorting.ascending && (< IoMdArrowDropup />)}
+                                        {!sorting.ascending && (< IoMdArrowDropdown />)}
+                                    </Button>
+                                </th>
+                                <th>
+                                    <small className="text-muted">Link</small>
+                                    <Button onClick={() => applySorting('link', !sorting.ascending)} variant="light">
+                                        {sorting.ascending && (< IoMdArrowDropup />)}
+                                        {!sorting.ascending && (< IoMdArrowDropdown />)}
+                                    </Button>
+                                </th>
                                 <th><AddShoe page={props.page}/></th>
                             </tr>
                         </thead>

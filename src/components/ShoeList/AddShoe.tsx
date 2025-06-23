@@ -93,20 +93,24 @@ export default function AddShoe(props: Props) {
                                     onChange={(e) => setFormData({...formData, color: e.target.value})}
                                 />
                             </FloatingLabel>
-                    
-                            <FloatingLabel
-                                controlId="floatingInput"
-                                label="Buy Date"
-                                className="mb-3"
-                            >
-                                <Form.Control 
-                                    type="date" 
-                                    placeholder="Select a date"
-                                    value={formData.buyDate}
-                                    onChange={(e) => setFormData({...formData, buyDate: e.target.value})}
-                                />
-                            </FloatingLabel>
-                        </Form.Group>
+                        </Form.Group>            
+
+                        {props.page === 'collection' && (
+                            <Form.Group className="mb-3">
+                                <FloatingLabel
+                                    controlId="floatingInput"
+                                    label="Buy Date"
+                                    className="mb-3"
+                                >
+                                    <Form.Control 
+                                        type="date" 
+                                        placeholder="Select a date"
+                                        value={formData.buyDate}
+                                        onChange={(e) => setFormData({...formData, buyDate: e.target.value})}
+                                    />
+                                </FloatingLabel>
+                            </Form.Group>
+                        )}
 
                         <InputGroup className="mb-3">
                             <InputGroup.Text>$</InputGroup.Text>
