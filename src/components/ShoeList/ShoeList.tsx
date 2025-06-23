@@ -29,6 +29,7 @@ export default function ShoeList (props: Props) {
 
     const [storedShoes, setStoredShoes] = usePersistedState(`SHOE_COLLECTION/${props.page}`, {shoes: []})
     const [dailyValues, setDailyValues] = usePersistedState(`DAILY_VALUES/${props.page}`, [])
+    const [collectionDailyValues, setCollectionDailyValues] = usePersistedState(`DAILY_VALUES/collection`, [])
 
     const dispatch = usePersistedReducer(reducer, initialState, storageKey)
     const dispatchMover = usePersistedReducer(reducer, initialState, 'SHOE_COLLECTION/collection')
@@ -55,7 +56,7 @@ export default function ShoeList (props: Props) {
             link: shoe.link
         }
         dispatchMover({ type: 'ADD_SHOE', payload: newShoe })
-        recalculateDailyValues(dailyValues, setDailyValues, 0, priceToNumber(shoe.sellPrice))
+        recalculateDailyValues(collectionDailyValues, setCollectionDailyValues, 0, priceToNumber(shoe.sellPrice))
 
         handleDelete(id)
     }
