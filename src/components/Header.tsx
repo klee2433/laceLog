@@ -8,7 +8,7 @@ export default function Header () {
             <Navbar sticky="top" expand="lg" className="bg-body-tertiary">
                 <Container>
                     <Navbar.Brand> 
-                        <Image src="/favicon.ico" width="60" rounded />
+                        <Image src="./favicon.ico" width="60" rounded />
                         {' '} Lace Log
                     </Navbar.Brand>
                     
