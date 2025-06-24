@@ -37,7 +37,10 @@ export default function Cards(props: Props) {
                         <Card.Body>
                             <Card.Title>Number of Shoes in {pageName}</Card.Title>
                             <h2> {numShoes} </h2>
-                            <small className="text-muted">+ {stats.newShoesMonth} in the past month, + {stats.newShoesYear} in the past year</small>
+                            {props.page === 'collection' && 
+                                (<small className="text-muted">
+                                    + {stats.newShoesMonth} in the past month, + {stats.newShoesYear} in the past year
+                                </small>)}
                         </Card.Body>
                     </Card>
                 </Col>
