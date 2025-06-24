@@ -25,6 +25,7 @@ interface Props {
 const initialState = {shoes: []}
 
 export default function ShoeList (props: Props) {
+    const pageName: string = props.page === 'collection' ? 'Collection' : 'Wishlist'
     const storageKey = `SHOE_COLLECTION/${props.page}`
 
     const [storedShoes, setStoredShoes] = usePersistedState(`SHOE_COLLECTION/${props.page}`, {shoes: []})
@@ -79,7 +80,7 @@ export default function ShoeList (props: Props) {
         <Container>
             <Card border="light">
                 <Card.Body>
-                    <Card.Title>Shoes in Collection</Card.Title>
+                    <Card.Title>Shoes in {pageName}</Card.Title>
                     <Table striped hover responsive>
                         <thead>
                             <tr>

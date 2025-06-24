@@ -10,17 +10,18 @@ let mainWindow;
 function createWindow () {
     mainWindow = new BrowserWindow({
         width: 1200,
-        height: 800,
+        height: 900,
+        icon: "./icon.icns",
         webPreferences: {
             preload: path.join(__dirname, '../electron/preload.js'),
             nodeIntegration: false,
             contextIsolation: true,
             enableRemoteModule: false,
+            devTools: false
         }
     });
 
     mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
-    mainWindow.webContents.openDevTools(); // this is optional thing, use it if you see a devTool window opened
 }
 
 app.whenReady().then(() => {

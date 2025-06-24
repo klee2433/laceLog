@@ -11,6 +11,8 @@ interface Props {
 }
 
 export default function Cards(props: Props) {
+    const pageName: string = props.page === 'collection' ? 'Collection' : 'Wishlist'
+
     const [dailyValues, setDailyValues] = usePersistedState(`DAILY_VALUES/${props.page}`, [])
     const currentValue: number = dailyValues.length > 0 ? dailyValues[dailyValues.length - 1].value : 0
 
@@ -24,7 +26,7 @@ export default function Cards(props: Props) {
                 <Col key={1}>
                     <Card border="light">
                         <Card.Body>
-                            <Card.Title>Current Collection Value</Card.Title>
+                            <Card.Title>Current {pageName} Value</Card.Title>
                             <h2> {numberToPrice(currentValue)} </h2>
                             <small className="text-muted">{stats.totalProfit} profit overall</small>
                         </Card.Body>
@@ -33,7 +35,7 @@ export default function Cards(props: Props) {
                 <Col key={2}>
                     <Card border="light">
                         <Card.Body>
-                            <Card.Title>Number of Shoes in Collection</Card.Title>
+                            <Card.Title>Number of Shoes in {pageName}</Card.Title>
                             <h2> {numShoes} </h2>
                             <small className="text-muted">+ {stats.newShoesMonth} in the past month, + {stats.newShoesYear} in the past year</small>
                         </Card.Body>

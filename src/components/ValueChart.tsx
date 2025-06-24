@@ -9,6 +9,8 @@ interface Props {
 }
 
 export default function ValueChart(props: Props) {
+    const pageName: string = props.page === 'collection' ? 'Collection' : 'Wishlist'
+
     const values: number[] = []
     const dates: string[] = []
     const [dailyValues, _] = usePersistedState(`DAILY_VALUES/${props.page}`, [])
@@ -24,7 +26,7 @@ export default function ValueChart(props: Props) {
         <Container>
             <Card border="light">
                 <Card.Body>
-                    <Card.Title className="m-50">Daily Collection Value</Card.Title>
+                    <Card.Title className="m-50">Daily {pageName} Value</Card.Title>
                     <LineChart
                         sx={{
                             "& .MuiLineElement-root": {

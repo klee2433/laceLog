@@ -37,11 +37,13 @@ export default function EditShoe(props: Props) {
 
     const [dailyValues, setDailyValues] = usePersistedState(`DAILY_VALUES/${props.page}`, [])
 
-    function handleSubmit() {
+    function handleSubmit(e: any) {
+        e.preventDefault()
         recalculateDailyValues(dailyValues, setDailyValues, priceToNumber(props.shoe.sellPrice), formData.sellPrice)
 
         dispatch({ type: 'EDIT_SHOE', payload: {id: props.shoe.id, data: formData} })
         setFormData(pastFormData)
+        window.location.reload();
     }
 
     return (
